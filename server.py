@@ -6,6 +6,7 @@ PORT = 50007              # Arbitrary non-privileged port
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen(1)
+    # while True: #server will continue to listen
     conn, addr = s.accept()
     with conn:
         print('Connected by', addr)
