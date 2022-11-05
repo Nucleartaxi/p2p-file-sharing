@@ -30,10 +30,14 @@ while True:
                 break
             send.send_str_data(user_input)
         send.disconnect()
-    if action == 2: #file mode 
+    elif action == 2: #file mode 
         print("Enter filename to send")
         filename = input()
         send = sender() 
+        print(filename)
         send.file_connect('localhost', 50007, filename)
         send.send_file(filename)
         send.disconnect()
+        print("File sent")
+    elif action == 3:
+        break
