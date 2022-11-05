@@ -24,4 +24,9 @@ while True:
         print("Type messages and press enter to send them, or type EXIT to exit")
         send = sender() 
         send.chat_connect('localhost', 50007) 
-        
+        while True:
+            user_input = input()
+            if user_input == "EXIT":
+                break
+            send.send_str_data(user_input)
+        send.disconnect()
