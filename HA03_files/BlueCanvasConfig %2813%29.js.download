@@ -1,2 +1,0 @@
-var BLUE_CANVAS_SETUP={connectorUrl:"https://wsu.bluera.com/wsuBlueConnector/",canvasAPI:"https://wsu.instructure.com",domainName:"com.explorance",consumerID:"Z15V9Sis-3LZ6Phsxar2jA==",defaultLanguage:"en-us"},BlueCanvasJS=document.createElement("script");BlueCanvasJS.setAttribute("type","text/javascript");BlueCanvasJS.setAttribute("src","https://wsu.bluera.com/wsuBlueConnector//Scripts/Canvas/BlueCanvas.min.js");document.getElementsByTagName("head")[0].appendChild(BlueCanvasJS);
-$("#post_to_sis_option").remove();
