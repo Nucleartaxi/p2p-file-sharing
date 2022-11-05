@@ -11,9 +11,13 @@ class sender: #handles sending data
         self.socket.sendall(str_data.encode('utf-8'))
         data = self.socket.recv(1024)
         print('Received', repr(data))
-    def connect(self, host, port):
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((host, port))
-        self.socket = s
+    def connect(self, host, port, header):
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((host, port))
+        self.socket.sendall(header.encode('utf-8'))
+    def chat_connect(self, host, port):
+        self.connect(host, port, "CHAT")
+    def file_connect(self, host, port):
+        self.connect(host, port, "FILE")
     def disconnect(self):
         self.socket.close()

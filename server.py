@@ -12,9 +12,15 @@ class server:
             conn, addr = s.accept()
             with conn:
                 print('Connected by', addr)
+                header = conn.recv(1024).decode().split(" ")
+                print("header=" + str(header))
                 while True:
                     data = conn.recv(1024)
                     if not data: break
                     conn.sendall(data)
+    def process_chat(self, conn):
+        pass
+    def process_file(self, conn, filename):
+        pass
 
 server1 = server()
