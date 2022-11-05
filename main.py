@@ -34,7 +34,6 @@ while True:
         print("Enter filename to send")
         filename = input()
         send = sender() 
-        print(filename)
         send.file_connect('localhost', 50007, filename)
         send.send_file(filename)
         send.disconnect()

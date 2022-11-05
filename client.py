@@ -14,7 +14,6 @@ class sender: #handles sending data
     def connect(self, host, port, header):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((host, port))
-        print("HEADER=" + header)
         self.socket.sendall(header.encode('utf-8'))
     def chat_connect(self, host, port):
         self.connect(host, port, "CHAT")
