@@ -17,7 +17,14 @@ class sender: #handles sending data
         self.socket.sendall(header.encode('utf-8'))
     def chat_connect(self, host, port):
         self.connect(host, port, "CHAT")
-    def file_connect(self, host, port):
-        self.connect(host, port, "FILE")
+    def file_connect(self, host, port, filename):
+        self.connect(host, port, "FILE" + " " + filename)
     def disconnect(self):
         self.socket.close()
+    def send_file(self, filename):
+        with open(filename, "rb") as in_file: #reads the file in chunks and sends it chunk by chunk
+            while True:
+                chunk = in_file.read(1024)
+                if chunk == b"":
+                    break
+                self.socket.sendall(chunk)

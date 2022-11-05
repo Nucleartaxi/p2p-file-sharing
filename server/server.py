@@ -29,9 +29,10 @@ class server:
             print(text) #print chat string to screen
             if not data: break #break if end of data
     def process_file(self, conn, filename):
-        while True:
-            data = conn.recv(1024)
-            if not data: break
-            conn.sendall(data)
+        with open(filename, "wb") as out_file: #reads the file in chunks and sends it chunk by chunk
+            while True:
+                chunk = conn.recv(1024)
+                if not chunk: break
+                out_file.write(chunk)
 
 server1 = server()
