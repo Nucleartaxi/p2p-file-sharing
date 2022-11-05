@@ -38,5 +38,5 @@ while True:
         send.send_file(filename)
         send.disconnect()
         print("File sent")
-    elif action == 3:
+    elif action == 3: #exit mode
         break
