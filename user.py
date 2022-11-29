@@ -34,7 +34,7 @@ class user_database:
             password = bytes(input("password: "), 'utf-8') 
             user = self.users[username] 
             # if bcrypt.checkpw(password + user.salt, user.password_hash):
-            if bcrypt.hashpw(password, user.salt) == user.password_hash:
+            if bcrypt.hashpw(password, user.salt) == user.password_hash: #check password
                 print("Password accepted") 
                 otp = input("Enter otp: ")
                 if user.otp.verify(otp):
