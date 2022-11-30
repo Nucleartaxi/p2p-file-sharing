@@ -1,5 +1,12 @@
 from client import sender
 
+from server import server
+import threading
+
+test_server = server(working_directory="./server/")
+thread = threading.Thread(target=test_server.start_server, args=())
+thread.start()
+print("Thread started")
 
 while True:
     # print("""

@@ -4,9 +4,8 @@ import socket
 HOST = ''                 # Symbolic name meaning all available interfaces
 PORT = 50007              # Arbitrary non-privileged port
 class server:
-    def __init__(self):
-        self.working_directory = "./server/"
-        self.start_server()
+    def __init__(self, working_directory):
+        self.working_directory = working_directory
 
     def process_chat(self, conn): 
         while True:
@@ -39,6 +38,3 @@ class server:
                     #     data = conn.recv(1024)
                     #     if not data: break
                     #     conn.sendall(data)
-
-
-server1 = server()
