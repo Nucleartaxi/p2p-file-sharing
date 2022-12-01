@@ -3,6 +3,7 @@ import socket
 
 HOST = 'localhost'    # The remote host
 PORT = 50007              # The same port as used by the server
+DELIM = "|"
 class sender: #handles sending data 
     def __init__(self) -> None:
         self.socket = None
@@ -16,9 +17,9 @@ class sender: #handles sending data
         self.socket.connect((host, port))
         self.socket.sendall(header.encode('utf-8'))
     def chat_connect(self, host, port):
-        self.connect(host, port, "CHAT")
+        self.connect(host, port, "CHAT" + DELIM)
     def file_connect(self, host, port, filename):
-        self.connect(host, port, "FILE" + " " + filename)
+        self.connect(host, port, "FILE" + DELIM + filename + DELIM)
     def disconnect(self):
         self.socket.close()
     def send_file(self, filename):

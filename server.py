@@ -3,6 +3,7 @@ import socket
 
 HOST = ''                 # Symbolic name meaning all available interfaces
 PORT = 50007              # Arbitrary non-privileged port
+DELIM = "|"
 class server:
     def __init__(self, working_directory):
         self.working_directory = working_directory
@@ -14,7 +15,7 @@ class server:
             print(text) #print chat string to screen
             if not data: break #break if end of data
     def process_file(self, conn, filename):
-        with open(self.working_directory + filename, "ab") as out_file: #reads the file in chunks and sends it chunk by chunk
+        with open(self.working_directory + filename, "wb") as out_file: #reads the file in chunks and sends it chunk by chunk
             while True:
                 chunk = conn.recv(1024)
                 if not chunk: break
@@ -28,12 +29,19 @@ class server:
                 conn, addr = s.accept()
                 with conn:
                     print('Connected by', addr)
-                    header = conn.recv(1024).decode().split(" ")
+                    chunk = conn.recv(1024)
+                    # header = conn.recv(1024).decode().split(" ")
+                    header = chunk.decode().split(DELIM) #parses the incoming chunk to read the header 
+                    command = header[0] 
+                    args = "" 
+                    if len(header) > 1:
+                        args = header[1]
                     print("header=" + str(header))
-                    if header[0] == "CHAT":
+                    print("command=" + command + " args=" + args)
+                    if command == "CHAT":
                         self.process_chat(conn)
-                    elif header[0] == "FILE":
-                        self.process_file(conn, header[1])
+                    elif command == "FILE":
+                        self.process_file(conn, args)
                     # while True:
                     #     data = conn.recv(1024)
                     #     if not data: break

@@ -4,7 +4,7 @@ from server import server
 import threading
 
 test_server = server(working_directory="./server/")
-thread = threading.Thread(target=test_server.start_server, args=())
+thread = threading.Thread(target=test_server.start_server, args=(), daemon=True)
 thread.start()
 print("Thread started")
 
@@ -46,4 +46,4 @@ while True:
         send.disconnect()
         print("File sent")
     elif action == 3: #exit mode
-        break
+        exit()
