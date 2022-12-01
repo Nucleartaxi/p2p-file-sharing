@@ -1,12 +1,12 @@
 # Echo client program
 import socket
 
-HOST = 'localhost'    # The remote host
 PORT = 50007              # The same port as used by the server
 DELIM = "|"
 class sender: #handles sending data 
     def __init__(self) -> None:
         self.socket = None
+        self.working_directory = "."
         pass
     def send_str_data(self, str_data): #sends string data to the server
         self.socket.sendall(str_data.encode('utf-8'))
@@ -25,6 +25,19 @@ class sender: #handles sending data
         self.send_file(filename)
     def request_connect(self, host, port, filename):
         self.connect(host, port, "REQUEST" + DELIM + filename + DELIM)
+        self.receive_file(filename)
+
+    def receive_file(self, filename):
+        chunk = self.socket.recv(1024)
+        if chunk.decode() == "NOFILE":
+            print("Error: this peer does not have file " + filename)
+            return
+        with open(self.working_directory + filename, "wb") as out_file: #reads the file in chunks and sends it chunk by chunk
+            while True:
+                if not chunk: break
+                out_file.write(chunk)
+                chunk = self.socket.recv(1024)
+
     def disconnect(self):
         self.socket.close()
     def send_file(self, filename):

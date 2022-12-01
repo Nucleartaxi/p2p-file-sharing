@@ -51,6 +51,9 @@ while True:
         filename = input() 
         print("Enter ip to request from") 
         ip = input() 
+        print("Enter port to request from") 
+        port = input() 
         send = sender() 
+        send.request_connect('localhost', 50007, filename)
     elif action == 4: #exit mode
         exit()

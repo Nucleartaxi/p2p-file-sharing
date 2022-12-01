@@ -1,5 +1,6 @@
 # Echo server program 
 import socket
+import os
 
 HOST = ''                 # Symbolic name meaning all available interfaces
 PORT = 50007              # Arbitrary non-privileged port
@@ -21,15 +22,16 @@ class server:
                 if not chunk: break
                 out_file.write(chunk)
     def process_request(self, conn, filename):
-        try:
-            with open(self.working_directory + filename, "rb") as in_file: #reads the file in chunks and sends it chunk by chunk
-                while True:
-                    chunk = in_file.read(1024)
-                    if chunk == b"":
-                        break
-                    self.socket.sendall(chunk)
-        except: #file does not exist
+        if not os.path.isfile(self.working_directory + filename): #if file doesn't exist
             conn.sendall(b"NOFILE")
+            return
+
+        with open(self.working_directory + filename, "rb") as in_file: #reads the file in chunks and sends it chunk by chunk
+            while True:
+                chunk = in_file.read(1024)
+                if chunk == b"":
+                    break
+                conn.sendall(chunk)
 
     def start_server(self): #starts the server. 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
