@@ -1,5 +1,7 @@
 import bcrypt 
 import pyotp
+import subprocess
+import pickle
 
 # https://pyauth.github.io/pyotp/ #easy 2fa will work with google authenticator 
 
@@ -25,8 +27,10 @@ class user_database:
         self.users[username] = user(username, hashed_password, salt, otp)
 
         #create the otp provisioning url and show it 
-        s = otp.provisioning_uri(name='alexander.shirk@wsu.edu', issuer_name='secureapp')
-        print(s)
+        otp_uri_for_qrcode = otp.provisioning_uri(name='alexander.shirk@wsu.edu', issuer_name='secureapp')
+        print(otp_uri_for_qrcode)
+        subprocess.run(["qrcode", otp_uri_for_qrcode], shell=True)
+        
 
     def user_login(self) -> bool:
         username = input("username: ") 
@@ -46,7 +50,29 @@ class user_database:
             return False
         print("Error, user does not exist.")
         return False
-db = user_database() 
-db.add_user("Alex", "Password") 
+# db = user_database() 
+# db.add_user("Alex", "Password") 
 
-print(db.user_login())
+# print(db.user_login())
+class login_handler:
+    def __init__(self):
+        self.db = user_database()
+    
+    def initialize_db_with_sample_users(self):
+        self.db.add_user("Alex", "Password")
+    def login_prompt(self): 
+        while True:
+            print("1. Login\n2. Exit")
+            user_input = input() 
+            if user_input == "1":
+                if not self.db.user_login():
+                    print("Login failed.")
+                    continue
+                else: #accept
+                    print("Logging in...")
+            else:
+                exit()
+
+l = login_handler()
+l.initialize_db_with_sample_users()
+l.login_prompt()
