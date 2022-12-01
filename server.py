@@ -1,4 +1,4 @@
-# Echo server program
+# Echo server program 
 import socket
 
 HOST = ''                 # Symbolic name meaning all available interfaces
