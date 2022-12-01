@@ -15,11 +15,16 @@ class sender: #handles sending data
     def connect(self, host, port, header):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((host, port))
-        self.socket.sendall(header.encode('utf-8'))
+        data = header.encode('utf-8') + bytearray([70] * (1024 - len(header))) #pads the byte array 
+        print(data.decode())
+        self.socket.sendall(data)
     def chat_connect(self, host, port):
         self.connect(host, port, "CHAT" + DELIM)
     def file_connect(self, host, port, filename):
         self.connect(host, port, "FILE" + DELIM + filename + DELIM)
+        self.send_file(filename)
+    def request_connect(self, host, port, filename):
+        self.connect(host, port, "REQUEST" + DELIM + filename + DELIM)
     def disconnect(self):
         self.socket.close()
     def send_file(self, filename):

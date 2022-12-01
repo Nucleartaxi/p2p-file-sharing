@@ -15,8 +15,9 @@ while True:
     # """)
     print("""
         1. Chat mode 
-        2. File mode 
-        3. Exit
+        2. Send file mode 
+        3. Request file mode
+        4. Exit
     """)
     action = int(input(": "))
     # if action == 1:
@@ -37,13 +38,19 @@ while True:
                 break
             send.send_str_data(user_input)
         send.disconnect()
-    elif action == 2: #file mode 
+    elif action == 2: #send file mode 
         print("Enter filename to send")
         filename = input()
         send = sender() 
         send.file_connect('localhost', 50007, filename)
-        send.send_file(filename)
+        # send.send_file(filename)
         send.disconnect()
         print("File sent")
-    elif action == 3: #exit mode
+    elif action == 3: #request file mode
+        print("Enter filename to request") 
+        filename = input() 
+        print("Enter ip to request from") 
+        ip = input() 
+        send = sender() 
+    elif action == 4: #exit mode
         exit()
