@@ -55,5 +55,6 @@ while True:
         port = input() 
         send = sender() 
         send.request_connect('localhost', 50007, filename)
+        send.disconnect()
     elif action == 4: #exit mode
         exit()
