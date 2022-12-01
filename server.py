@@ -20,6 +20,16 @@ class server:
                 chunk = conn.recv(1024)
                 if not chunk: break
                 out_file.write(chunk)
+    def process_request(self, conn, filename):
+        try:
+            with open(self.working_directory + filename, "rb") as in_file: #reads the file in chunks and sends it chunk by chunk
+                while True:
+                    chunk = in_file.read(1024)
+                    if chunk == b"":
+                        break
+                    self.socket.sendall(chunk)
+        except: #file does not exist
+            conn.sendall(b"NOFILE")
 
     def start_server(self): #starts the server. 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -33,7 +43,7 @@ class server:
                     # header = conn.recv(1024).decode().split(" ")
                     header = chunk.decode().split(DELIM) #parses the incoming chunk to read the header 
                     command = header[0] 
-                    args = "" 
+                    args = "" #the filename
                     if len(header) > 1:
                         args = header[1]
                     print("header=" + str(header))
@@ -42,6 +52,8 @@ class server:
                         self.process_chat(conn)
                     elif command == "FILE":
                         self.process_file(conn, args)
+                    elif command == "REQUEST":
+                        self.process_request(conn, args)
                     # while True:
                     #     data = conn.recv(1024)
                     #     if not data: break
