@@ -2,6 +2,7 @@ import bcrypt
 import pyotp
 import subprocess
 import pickle
+import getpass
 
 # https://pyauth.github.io/pyotp/ #easy 2fa will work with google authenticator 
 
@@ -15,6 +16,13 @@ class user:
 class user_database:
     def __init__(self):
         self.users = {}
+        self.load_db() #load db on startup
+    def save_db(self):
+        with open("user_db.pickle", "wb") as f:
+            pickle.dump(self.users, f)
+    def load_db(self):
+        with open("user_db.pickle", "rb") as f:
+            self.users = pickle.load(f)
     def add_user(self, username, password):
         #make the password hash
         salt = bcrypt.gensalt()
@@ -27,15 +35,17 @@ class user_database:
         self.users[username] = user(username, hashed_password, salt, otp)
 
         #create the otp provisioning url and show it 
-        otp_uri_for_qrcode = otp.provisioning_uri(name='alexander.shirk@wsu.edu', issuer_name='secureapp')
+        otp_uri_for_qrcode = otp.provisioning_uri(name=username, issuer_name='secureapp')
         print(otp_uri_for_qrcode)
         subprocess.run(["qrcode", otp_uri_for_qrcode], shell=True)
+
+        self.save_db() #save our db whenever there is a change 
         
 
     def user_login(self) -> bool:
         username = input("username: ") 
         if username in self.users.keys():
-            password = bytes(input("password: "), 'utf-8') 
+            password = bytes(getpass.getpass("password: "), 'utf-8') 
             user = self.users[username] 
             # if bcrypt.checkpw(password + user.salt, user.password_hash):
             if bcrypt.hashpw(password, user.salt) == user.password_hash: #check password
@@ -59,7 +69,8 @@ class login_handler:
         self.db = user_database()
     
     def initialize_db_with_sample_users(self):
-        self.db.add_user("Alex", "Password")
+        self.db.add_user("Alice", "AlicePassword")
+        self.db.add_user("Bob", "BobPassword")
     def login_prompt(self): 
         while True:
             print("1. Login\n2. Exit")
@@ -70,9 +81,10 @@ class login_handler:
                     continue
                 else: #accept
                     print("Logging in...")
+                    break
             else:
                 exit()
 
 l = login_handler()
-l.initialize_db_with_sample_users()
+# l.initialize_db_with_sample_users() #our users are already created
 l.login_prompt()
