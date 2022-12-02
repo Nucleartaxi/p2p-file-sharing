@@ -1,54 +1,41 @@
 from client import sender
-from server import server
+from peers import peer_db, peer
 
-def main_user_interface_loop():
-    while True:
-        # print("""
-        #     1. Request file 
-        #     2. Seed files 
-        # """)
-        print("""
-            1. Chat mode 
-            2. Send file mode 
-            3. Request file mode
-            4. Exit
-        """)
-        action = int(input(": "))
-        # if action == 1:
-        #     file_to_request = input("enter file to request: ") #gets the file the user wants to request from the network
-        #     send = sender() #initializes a sender object so we can establish a connection to the server
-        #     send.connect('localhost', 50007)
-        #     send.send_data(file_to_request) #sends the file we want to request to the other program on the network 
-        #     send.disconnect()
-        # else:
-        #     print("Invalid input. Please try again.") 
-        if action == 1: #chat mode
-            print("Type messages and press enter to send them, or type EXIT to exit")
-            send = sender() 
-            send.chat_connect('localhost', 50007) 
-            while True:
-                user_input = input()
-                if user_input == "EXIT":
-                    break
-                send.send_str_data(user_input)
-            send.disconnect()
-        elif action == 2: #send file mode 
-            print("Enter filename to send")
-            filename = input()
-            send = sender() 
-            send.file_connect('localhost', 50007, filename)
-            # send.send_file(filename)
-            send.disconnect()
-            print("File sent")
-        elif action == 3: #request file mode
-            print("Enter filename to request") 
-            filename = input() 
-            print("Enter ip to request from") 
-            ip = input() 
-            print("Enter port to request from") 
-            port = input() 
-            send = sender() 
-            send.request_connect('localhost', 50007, filename)
-            send.disconnect()
-        elif action == 4: #exit mode
-            exit()
+
+class main_user_interface_loop():
+    def __init__(self, peers_db):
+        self.peer_db = peers_db
+        self.main_user_interface_loop()
+    def request_peer(self) -> peer:
+
+        print("Request from which peer?")
+        self.peer_db.print_peers()
+
+    def main_user_interface_loop(self):
+        while True:
+            print("""
+                1. Send file mode 
+                2. Request file mode
+                3. Exit
+            """)
+            action = int(input(": "))
+            if action == 1: #send file mode 
+                print("Enter filename to send")
+                filename = input()
+                send = sender() 
+                send.file_connect('localhost', 50007, filename)
+                # send.send_file(filename)
+                send.disconnect()
+                print("File sent")
+            elif action == 2: #request file mode
+                print("Enter filename to request") 
+                filename = input() 
+                print("Enter ip to request from") 
+                ip = input() 
+                print("Enter port to request from") 
+                port = input() 
+                send = sender() 
+                send.request_connect('localhost', 50007, filename)
+                send.disconnect()
+            elif action == 3: #exit mode
+                exit()
