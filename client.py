@@ -6,7 +6,7 @@ DELIM = "|"
 class sender: #handles sending data 
     def __init__(self) -> None:
         self.socket = None
-        self.working_directory = "."
+        self.working_directory = "./"
         pass
     def send_str_data(self, str_data): #sends string data to the server
         self.socket.sendall(str_data.encode('utf-8'))
