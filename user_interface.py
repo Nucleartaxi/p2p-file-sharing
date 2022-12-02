@@ -10,6 +10,8 @@ class main_user_interface_loop():
 
         print("Request from which peer?")
         self.peer_db.print_peers()
+        input_peer = input(": ")
+        return self.peer_db.get_peer(input_peer)
 
     def main_user_interface_loop(self):
         while True:
@@ -22,20 +24,28 @@ class main_user_interface_loop():
             if action == 1: #send file mode 
                 print("Enter filename to send")
                 filename = input()
+
+                peer = self.request_peer() 
+                if peer == None:
+                    print("Error, could not find peer.")
+                    continue
+
                 send = sender() 
-                send.file_connect('localhost', 50007, filename)
-                # send.send_file(filename)
+                send.file_connect(peer.ip, peer.port, filename)
                 send.disconnect()
                 print("File sent")
             elif action == 2: #request file mode
                 print("Enter filename to request") 
                 filename = input() 
-                print("Enter ip to request from") 
-                ip = input() 
-                print("Enter port to request from") 
-                port = input() 
+
+                peer = self.request_peer() 
+                if peer == None:
+                    print("Error, could not find peer.")
+                    continue
+
                 send = sender() 
-                send.request_connect('localhost', 50007, filename)
+                send.request_connect(peer.ip, peer.port, filename)
                 send.disconnect()
+                print("File received")
             elif action == 3: #exit mode
                 exit()
