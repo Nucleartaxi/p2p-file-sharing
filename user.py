@@ -12,6 +12,8 @@ class user:
         self.password_hash = password_hash
         self.salt = salt
         self.otp = otp 
+    def __repr__(self) -> str:
+        return "username: " + self.username + " password_hash: " + str(self.password_hash) + " salt: " + str(self.salt)
 
 class user_database:
     def __init__(self):
@@ -40,7 +42,6 @@ class user_database:
         subprocess.run(["qrcode", otp_uri_for_qrcode], shell=True)
 
         self.save_db() #save our db whenever there is a change 
-        
 
     def user_login(self) -> bool:
         username = input("username: ") 
@@ -60,6 +61,12 @@ class user_database:
             return False
         print("Error, user does not exist.")
         return False
+    
+    def __repr__(self):
+        result = "" 
+        for x in self.users.items():
+            result += str(x[1]) + "\n"
+        return result
 # db = user_database() 
 # db.add_user("Alex", "Password") 
 
@@ -87,4 +94,5 @@ class login_handler:
 
 l = login_handler()
 # l.initialize_db_with_sample_users() #our users are already created
+print(l.db)
 l.login_prompt()
