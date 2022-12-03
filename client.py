@@ -40,7 +40,7 @@ class sender: #handles sending data
     def disconnect(self):
         self.socket.close()
     def send_file(self, filename):
-        with open(filename, "rb") as in_file: #reads the file in chunks and sends it chunk by chunk
+        with open(self.working_directory + filename, "rb") as in_file: #reads the file in chunks and sends it chunk by chunk
             while True:
                 chunk = in_file.read(1024)
                 if chunk == b"":
