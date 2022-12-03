@@ -25,3 +25,5 @@ class instance: #an instance of the p2p program instance
     def request_file(self, filename: str, peer: peer):
         self.sender.request_connect(peer.ip, peer.port, filename)
         self.sender.disconnect()
+    def __repr__(self) -> str:
+        return str(self.peer)
