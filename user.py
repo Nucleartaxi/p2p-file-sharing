@@ -42,7 +42,7 @@ class user_database:
         #create the otp provisioning url and show it 
         subprocess.run(["qrcode", otp_uri_for_qrcode], shell=True)
 
-        self.save_db() #save our db whenever there is a change 
+        # self.save_db() #save our db whenever there is a change 
 
     def user_login(self) -> str: #returns the user logged in, or None otherwise
         username = input("username: ") 
@@ -77,8 +77,8 @@ class user_database:
 
 # print(db.user_login())
 class login_handler:
-    def __init__(self):
-        self.db = user_database()
+    def __init__(self, user_db: user_database):
+        self.db = user_db
     
     def login_prompt(self, func): 
         while True:

@@ -38,3 +38,6 @@ class main: #main class
 
 m = main()
 m.select_demo()
+
+# db = user_database()
+# db.initialize_db_with_sample_users()
