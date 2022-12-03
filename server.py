@@ -33,9 +33,9 @@ class server:
                     break
                 conn.sendall(chunk)
 
-    def start_server(self): #starts the server. 
+    def start_server(self, host, port): #starts the server. 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind((HOST, PORT))
+            s.bind((host, port))
             s.listen(1)
             while True: #server will continue to listen
                 conn, addr = s.accept()
