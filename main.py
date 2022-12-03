@@ -1,12 +1,8 @@
-from client import sender
-from server import server
 from peers import peer_db
-from peers import peer_db, peer
-from instance import instance
+from peers import peer_db
 from user_interface import instance_user_interface
-from user import user_database, user, login_handler
+from user import user_database, login_handler
 
-import threading
 
 
 
