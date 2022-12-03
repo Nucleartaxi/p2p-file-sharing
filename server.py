@@ -48,8 +48,8 @@ class server:
                     args = "" #the filename
                     if len(header) > 1:
                         args = header[1]
-                    print("header=" + str(header))
-                    print("command=" + command + " args=" + args)
+                    # print("header=" + str(header))
+                    # print("command=" + command + " args=" + args)
                     if command == "CHAT":
                         self.process_chat(conn)
                     elif command == "FILE":

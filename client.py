@@ -7,7 +7,6 @@ class sender: #handles sending data
     def __init__(self):
         self.socket = None
         self.working_directory = "./"
-        pass
     def send_str_data(self, str_data): #sends string data to the server
         self.socket.sendall(str_data.encode('utf-8'))
         # data = self.socket.recv(1024)
@@ -16,7 +15,7 @@ class sender: #handles sending data
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((host, port))
         data = header.encode('utf-8') + bytearray([70] * (1024 - len(header))) #pads the byte array 
-        print(data.decode())
+        # print(data.decode())
         self.socket.sendall(data)
     def chat_connect(self, host, port):
         self.connect(host, port, "CHAT" + DELIM)
