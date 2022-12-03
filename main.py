@@ -2,6 +2,7 @@ from peers import peer_db
 from peers import peer_db
 from user_interface import instance_user_interface
 from user import user_database, login_handler
+from mininet_demo import mininet_demo
 
 
 
@@ -12,7 +13,7 @@ class main: #main class
     
     def select_demo(self):
         while True:
-            print("Which demo to run?\n0. Exit\n1. Login demo\n2. main loop no login (for testing)\n3. Scanning qr code for 2FA\n")
+            print("Which demo to run?\n0. Exit\n1. Login demo\n2. main loop no login (for testing)\n3. Scanning qr code for 2FA\n4. 10-user mininet demo.")
             selection = str(input())
             if selection == "0":
                 exit() 
@@ -22,6 +23,12 @@ class main: #main class
                 self.demo_user_loop()
             elif selection == "3":
                 self.demo_scan_qr_code()
+            elif selection == "4": 
+                demo = mininet_demo()
+                demo.start()
+            else:
+                print("Error, invalid input.") 
+                continue
 
     # def demo_UI(self):
     #     db = peer_db()
