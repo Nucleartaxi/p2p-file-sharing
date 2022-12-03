@@ -64,6 +64,9 @@ class instance_user_interface():
                 self.request_file_prompt()
             elif action == 3: #exit mode
                 exit()
+            else:
+                print("Error, invalid input. Please try again.")
+                continue
 
     # def main_user_interface_loop(self):
     #     while True:
