@@ -12,7 +12,7 @@ class main: #main class
     
     def select_demo(self):
         while True:
-            print("Which demo to run?\n0. Exit\n1. Login demo\n2. main loop no login (for testing)\n3. Mininet 10 peers demo")
+            print("Which demo to run?\n0. Exit\n1. Login demo\n2. main loop no login (for testing)\n3. Scanning qr code for 2FA\n")
             selection = str(input())
             if selection == "0":
                 exit() 
@@ -21,10 +21,13 @@ class main: #main class
             elif selection == "2":
                 self.demo_user_loop()
             elif selection == "3":
-                pass
+                self.demo_scan_qr_code()
 
     # def demo_UI(self):
     #     db = peer_db()
+    def demo_scan_qr_code(self):
+        user_db = user_database()
+        user_db.add_user(input("Username: "), input("Password: "))
     def demo_user_loop(self, user):
         # i = instance(self.peer_db.get_peer("Alice")) #construct the instance the UI will control
         ui = instance_user_interface(peers_db=self.peer_db, peer=self.peer_db.get_peer(user)) #construct UI, run as user
