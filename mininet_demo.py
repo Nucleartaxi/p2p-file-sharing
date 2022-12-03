@@ -18,12 +18,12 @@ class SingleSwitchTopo( Topo ):
         switch = self.addSwitch('s1')
         for h in range(n):
             # Each host gets 50%/n of system CPU
-            # host = self.addHost("h%s" % (h+1), ip='192.168.1.' + str(n))
             # 10 Mbps, 5ms delay, no packet loss
             # self.addLink(host, switch, bw=10, delay='5ms', loss=0, use_htb=True)
             # Each host gets 50%/n of system CPU
             host = self.addHost('h%s' % (h + 1),
                                 cpu=.5 / n)
+            host = self.addHost("h%s" % (h+1), cpu=.5 / n, ip='192.168.1.' + str(n))
             # 10 Mbps, 5ms delay, no packet loss
             self.addLink(host, switch,
                             bw=10, delay='5ms', loss=0, use_htb=True)
