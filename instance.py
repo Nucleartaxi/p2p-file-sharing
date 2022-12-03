@@ -15,7 +15,7 @@ class instance: #an instance of the p2p program instance
         self.start_server()
 
     def start_server(self): #start the server
-        thread = threading.Thread(target=self.server.start_server, args=(), daemon=True) 
+        thread = threading.Thread(target=self.server.start_server, args=(self.peer.ip, self.peer.port), daemon=True) 
         thread.start()
         print("Started server thread for user " + self.peer.name)
     
