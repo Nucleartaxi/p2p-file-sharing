@@ -5,9 +5,10 @@ from instance import instance
 
 
 class instance_user_interface():
-    def __init__(self, peers_db: peer_db, instance: instance):
+    def __init__(self, peers_db: peer_db, peer: peer):
         self.peer_db = peers_db
-        self.instance = instance #who are we running this user interface as? 
+        self.peer = peer
+        self.instance = instance(peer) #who are we running this user interface as? 
 
     def request_peer(self) -> peer: #helper for the user interface to prompt peers from the user.
         print("Which peer?")

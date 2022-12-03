@@ -43,7 +43,7 @@ class user_database:
 
         self.save_db() #save our db whenever there is a change 
 
-    def user_login(self) -> bool:
+    def user_login(self) -> str: #returns the user logged in, or None otherwise
         username = input("username: ") 
         if username in self.users.keys():
             password = bytes(getpass.getpass("password: "), 'utf-8') 
@@ -54,13 +54,13 @@ class user_database:
                 otp = input("Enter otp: ")
                 if user.otp.verify(otp):
                     print("otp accepted. ")
-                    return True
+                    return username
                 print("Error: incorrect otp.")
-                return False
+                return None
             print("Error: incorrect password.")
-            return False
+            return None
         print("Error, user does not exist.")
-        return False
+        return None
     
     def __repr__(self):
         result = "" 
@@ -72,27 +72,28 @@ class user_database:
 
 # print(db.user_login())
 class login_handler:
-    def __init__(self):
-        self.db = user_database()
+    def __init__(self, user_db: user_database):
+        self.db = user_db
     
     def initialize_db_with_sample_users(self):
         self.db.add_user("Alice", "AlicePassword")
         self.db.add_user("Bob", "BobPassword")
-    def login_prompt(self): 
+    def login_prompt(self, func): 
         while True:
             print("1. Login\n2. Exit")
             user_input = input() 
             if user_input == "1":
-                if not self.db.user_login():
+                login = self.db.user_login()
+                if not login:
                     print("Login failed.")
                     continue
                 else: #accept
                     print("Logging in...")
-                    break
+                    func(login) #call the function with the login
             else:
-                exit()
+                return
 
-l = login_handler()
+# l = login_handler()
 # l.initialize_db_with_sample_users() #our users are already created
-print(l.db)
-l.login_prompt()
+# print(l.db)
+# l.login_prompt()
