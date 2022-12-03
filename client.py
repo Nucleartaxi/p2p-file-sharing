@@ -4,7 +4,7 @@ import socket
 PORT = 50007              # The same port as used by the server
 DELIM = "|"
 class sender: #handles sending data 
-    def __init__(self) -> None:
+    def __init__(self):
         self.socket = None
         self.working_directory = "./"
         pass
