@@ -23,10 +23,9 @@ class SingleSwitchTopo( Topo ):
             # Each host gets 50%/n of system CPU
             # host = self.addHost('h%s' % (h + 1),
             #                     cpu=.5 / n)
-            host = self.addHost("h%s" % (h+1), cpu=.5 / n, ip='10.0.0.1/8')
+            host = self.addHost("h%s" % (h+1), cpu=.5 / n)
             # 10 Mbps, 5ms delay, no packet loss
-            self.addLink(host, switch,
-                            bw=10, delay='5ms', loss=0, use_htb=True)
+            self.addLink(host, switch, bw=10, delay='5ms', loss=0, use_htb=True)
 
 
 def perfTest():
@@ -35,13 +34,15 @@ def perfTest():
     net = Mininet( topo=topo,
                    host=CPULimitedHost, link=TCLink,
                    autoStaticArp=True )
-    net.get('h1').setIP('192.168.1.1')
+    # net.get('h1').setIP('192.168.1.1')
+    [print(net.get('h' + str(x)).IP()) for x in range(1, 5)]
     net.start()
     info( "Dumping host connections\n" )
     dumpNodeConnections(net.hosts)
     info( "Testing bandwidth between h1 and h4\n" )
     h1, h4 = net.getNodeByName('h1', 'h4')
     net.iperf( ( h1, h4 ), l4Type='UDP' )
+    net.pingAll()
     net.stop()
 
 
