@@ -7,7 +7,7 @@ import getpass
 # https://pyauth.github.io/pyotp/ #easy 2fa will work with google authenticator 
 
 class user:
-    def __init__(self, username, password_hash, salt, otp):
+    def __init__(self, username, password_hash, salt, otp, uri):
         self.username = username
         self.password_hash = password_hash
         self.salt = salt
@@ -33,12 +33,13 @@ class user_database:
         #make the otp
         otp = pyotp.totp.TOTP(pyotp.random_base32())
 
-        #Create the user in the database
-        self.users[username] = user(username, hashed_password, salt, otp)
-
-        #create the otp provisioning url and show it 
         otp_uri_for_qrcode = otp.provisioning_uri(name=username, issuer_name='secureapp')
         print(otp_uri_for_qrcode)
+
+        #Create the user in the database
+        self.users[username] = user(username, hashed_password, salt, otp, otp_uri_for_qrcode)
+
+        #create the otp provisioning url and show it 
         subprocess.run(["qrcode", otp_uri_for_qrcode], shell=True)
 
         self.save_db() #save our db whenever there is a change 
@@ -61,6 +62,10 @@ class user_database:
             return None
         print("Error, user does not exist.")
         return None
+
+    def initialize_db_with_sample_users(self):
+        self.add_user("Alice", "AlicePassword")
+        self.add_user("Bob", "BobPassword")
     
     def __repr__(self):
         result = "" 
@@ -72,12 +77,9 @@ class user_database:
 
 # print(db.user_login())
 class login_handler:
-    def __init__(self, user_db: user_database):
-        self.db = user_db
+    def __init__(self):
+        self.db = user_database()
     
-    def initialize_db_with_sample_users(self):
-        self.db.add_user("Alice", "AlicePassword")
-        self.db.add_user("Bob", "BobPassword")
     def login_prompt(self, func): 
         while True:
             print("1. Login\n2. Exit")
@@ -93,7 +95,7 @@ class login_handler:
             else:
                 return
 
+# db.initialize_db_with_sample_users()
 # l = login_handler()
-# l.initialize_db_with_sample_users() #our users are already created
 # print(l.db)
 # l.login_prompt()
