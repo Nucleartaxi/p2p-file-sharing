@@ -9,6 +9,19 @@ from user import user_database, login_handler
 class main: #main class
     def __init__(self):
         self.peer_db = peer_db()
+    
+    def select_demo(self):
+        while True:
+            print("Which demo to run?\n0. Exit\n1. Login demo\n2. main loop no login (for testing)\n3. Mininet 10 peers demo")
+            selection = str(input())
+            if selection == "0":
+                exit() 
+            elif selection == "1":
+                self.demo_user_with_login()
+            elif selection == "2":
+                self.demo_user_loop()
+            elif selection == "3":
+                pass
 
     # def demo_UI(self):
     #     db = peer_db()
@@ -24,4 +37,4 @@ class main: #main class
         
 
 m = main()
-m.demo_user_with_login()
+m.select_demo()
