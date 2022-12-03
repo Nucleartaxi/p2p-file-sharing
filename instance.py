@@ -2,6 +2,8 @@ from client import sender
 from server import server
 from peers import peer
 import threading
+import sys
+
 
 class instance: #an instance of the p2p program instance
     def __init__(self, peer: peer):
@@ -27,3 +29,9 @@ class instance: #an instance of the p2p program instance
         self.sender.disconnect()
     def __repr__(self) -> str:
         return str(self.peer)
+
+
+if __name__ == '__main__':
+    args = sys.argv[1:]
+    p = peer(args[0], args[1], args[2]) #name ip port
+    instance(p)
