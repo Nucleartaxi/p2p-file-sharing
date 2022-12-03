@@ -2,7 +2,8 @@ from peers import peer_db
 from peers import peer_db
 from user_interface import instance_user_interface
 from user import user_database, login_handler
-from mininet_demo import mininet_demo
+from complete_demo import complete_demo
+# from mininet_demo import mininet_demo
 
 
 
@@ -13,18 +14,23 @@ class main: #main class
     
     def select_demo(self):
         while True:
-            print("Which demo to run?\n0. Exit\n1. Login demo\n2. main loop no login (for testing)\n3. Scanning qr code for 2FA\n4. 10-user mininet demo.")
+            # print("Which demo to run?\n0. Exit\n1. Login demo\n2. main loop no login (for testing)\n3. Scanning qr code for 2FA\n4. mininet demo (test)\n5. Complete demo (use this one)")
+            print("Which demo to run?\n0. Exit\n5. Complete login and networking demo (use this one)\n3. Show how qr code scanning works")
             selection = str(input())
             if selection == "0":
                 exit() 
-            elif selection == "1":
-                self.demo_user_with_login()
-            elif selection == "2":
-                self.demo_user_loop()
-            elif selection == "3":
+            # elif selection == "1":
+            #     self.demo_user_with_login()
+            # elif selection == "2":
+            #     self.demo_user_loop()
+            elif selection == "3": #demonstrates how qr code scanning works 
                 self.demo_scan_qr_code()
-            elif selection == "4": 
-                demo = mininet_demo()
+            # elif selection == "4": 
+                # demo = mininet_demo()
+                # demo.start()
+                print("test")
+            elif selection == "5": #complete demo (use this one)
+                demo = complete_demo()
                 demo.start()
             else:
                 print("Error, invalid input.") 
