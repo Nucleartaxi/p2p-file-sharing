@@ -29,6 +29,7 @@ class peer_db:
             self.db = pickle.load(f)
     def initialize_db_with_sample_peers(self):
         self.add_peer("Alice", "localhost", 50007)
+        self.add_peer("Bob", "localhost", 50010)
     def __repr__(self):
         result = "" 
         for x in self.db.items():
